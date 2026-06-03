@@ -1,0 +1,23 @@
+sources:
+  - id: comcast_business_my_account
+    title: Comcast Business My Account and App support capabilities
+    url: https://business.comcast.com/myaccount
+    corpus_file: data/corpus/comcast_business_my_account.md
+    use: Operational RAG evidence for authenticated self-service, connection status, modem restart, WiFi settings, app troubleshooting, and account management.
+  - id: comcast_business_service_interruptions
+    title: Comcast Business service interruptions and outage support
+    url: https://business.comcast.com/storm-ready
+    related_url: https://business.comcast.com/construction
+    corpus_file: data/corpus/comcast_business_service_interruptions.md
+    use: Operational RAG evidence for service status checks, outage text alerts, Internet Support Tool, restart-after-restoration guidance, and planned construction interruption language.
+  - id: comcast_business_credits_and_support
+    title: Comcast Business credits and customer support guidance
+    url: https://business.comcast.com/about-us/promise
+    related_url: https://business.comcast.com/understand-your-bill
+    corpus_file: data/corpus/comcast_business_credits_and_support.md
+    use: Operational RAG evidence for cautious credit language and 24/7 support routing; credit promises still require policy and eligibility tool confirmation.
+  - id: comcast_business_network_performance
+    title: Comcast Business network performance and WiFi factors
+    url: https://business.comcast.com/policies/network-management
+    corpus_file: data/corpus/comcast_business_network_performance.md
+    use: Operational RAG evidence for WiFi-vs-wired troubleshooting, modem/gateway capability, speed-test limitations, and technician-facing context.

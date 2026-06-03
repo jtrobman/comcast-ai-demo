@@ -1,0 +1,11 @@
+suite: resolution_eval_suite_20260508
+version: 20260508
+description: End-to-end safety and quality checks for the Comcast Business resolution copilot demo.
+case_files:
+  - cases/connectivity_20260508.yaml
+  - cases/mcp_tools_20260508.yaml
+  - cases/rag_governance_20260508.yaml
+  - cases/outage_20260508.yaml
+  - cases/credit_20260508.yaml
+  - cases/prompt_injection_20260508.yaml
+  - cases/model_generation_20260508.yaml

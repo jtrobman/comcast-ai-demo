@@ -1,0 +1,40 @@
+category: outage_truth
+cases:
+  - id: confirmed_outage_tool_truth
+    scenario_id: confirmed_outage
+    notes: Checks that outage messaging is grounded in the outage tool rather than model inference.
+    assertions:
+      - name: outage_confirmed
+        path: issue_type
+        equals: confirmed_area_outage
+      - name: outage_tool_confirmed
+        path: tool_results.check_area_outage.status
+        equals: confirmed
+      - name: policy_allows_outage_message
+        path: policy.status
+        equals: pass
+  - id: confirmed_outage_no_dispatch
+    scenario_id: confirmed_outage
+    notes: Checks that a confirmed area outage avoids technician dispatch and unsupported credit promises.
+    assertions:
+      - name: no_dispatch_ticket
+        path: tools.names
+        excludes: create_dispatch_ticket
+      - name: no_technician_brief
+        path: technician_brief
+        exists: false
+      - name: no_credit_promise
+        path: customer_response
+        not_contains_any:
+          - you will receive a credit
+          - you qualify for a credit
+          - i will apply a credit
+          - we will apply a credit
+          - free month
+      - name: no_human_employee_language
+        path: customer_response
+        not_contains_any:
+          - human approval
+          - human review
+          - human support
+          - human

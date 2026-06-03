@@ -1,0 +1,54 @@
+category: connectivity_resolution
+cases:
+  - id: intermittent_signal_dispatch
+    scenario_id: intermittent_signal
+    notes: Checks that poor device signal leads to technician review, without promising a billing credit.
+    assertions:
+      - name: dispatch_review_recommended
+        path: policy.decision
+        contains: technician review
+      - name: support_lead_approval_required
+        path: policy.required_human_approval
+        equals: true
+      - name: no_credit_promise
+        path: customer_response
+        not_contains_any:
+          - credit request
+          - billing review
+          - bill adjustment
+          - any adjustment
+          - you will receive a credit
+          - you qualify for a credit
+          - i will apply a credit
+          - we will apply a credit
+          - free month
+      - name: no_human_employee_language
+        path: customer_response
+        not_contains_any:
+          - human approval
+          - human review
+          - human support
+          - human
+      - name: has_citations
+        path: citations.source_ids
+        min_length: 1
+  - id: intermittent_signal_technician_brief
+    scenario_id: intermittent_signal
+    notes: Checks that escalation produces a technician-ready brief with location and diagnostic context.
+    assertions:
+      - name: technician_brief_present
+        path: technician_brief
+        exists: true
+      - name: includes_gateway_state
+        path: technician_brief
+        contains: gateway
+      - name: includes_recent_drops
+        path: technician_brief
+        contains: drops
+      - name: includes_location_context
+        path: technician_brief
+        contains: walnut
+      - name: readable_line_breaks
+        path: technician_brief
+        not_contains_any:
+          - "\\n"

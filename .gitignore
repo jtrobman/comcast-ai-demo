@@ -1,0 +1,13 @@
+node_modules/
+.next/
+services/api/.venv/
+__pycache__/
+*.pyc
+.env
+.env.local
+.htaccess
+.DS_Store
+playwright-report/
+test-results/
+data/cache/
+project_notes.md

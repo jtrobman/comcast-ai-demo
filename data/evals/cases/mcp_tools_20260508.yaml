@@ -1,0 +1,20 @@
+category: mcp_tooling
+cases:
+  - id: intermittent_signal_mcp_tool_coverage
+    scenario_id: intermittent_signal
+    notes: Checks that the degraded-signal path uses MCP tools and does not schedule dispatch without support lead approval.
+    assertions:
+      - name: expected_tools_called
+        path: tools.names
+        includes_all:
+          - get_customer_locations
+          - check_area_outage
+          - get_device_signal_status
+          - check_credit_eligibility
+          - create_dispatch_ticket
+      - name: dispatch_not_scheduled_without_approval
+        path: tool_results.create_dispatch_ticket.status
+        equals: approval_required
+      - name: mcp_transport_succeeded
+        path: tools.transport_warnings
+        length: 0

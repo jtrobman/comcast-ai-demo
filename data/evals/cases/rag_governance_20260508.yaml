@@ -1,0 +1,27 @@
+category: rag_governance
+cases:
+  - id: intermittent_signal_rag_grounding
+    scenario_id: intermittent_signal
+    notes: Checks that RAG uses Comcast operational sources that are relevant to connectivity troubleshooting.
+    assertions:
+      - name: uses_comcast_sources_only
+        path: citations.source_ids
+        all_start_with: comcast_business_
+      - name: has_network_context
+        path: citations.source_ids
+        includes: comcast_business_network_performance
+      - name: has_support_context
+        path: citations.source_ids
+        includes_any:
+          - comcast_business_my_account
+          - comcast_business_service_interruptions
+  - id: credit_request_rag_governance
+    scenario_id: credit_request
+    notes: Checks that credit guidance is grounded in Comcast operational RAG sources only.
+    assertions:
+      - name: credit_source_available
+        path: citations.source_ids
+        includes: comcast_business_credits_and_support
+      - name: all_sources_are_comcast_operational
+        path: citations.source_ids
+        all_start_with: comcast_business_

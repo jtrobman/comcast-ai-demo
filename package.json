@@ -1,0 +1,30 @@
+{
+  "name": "comcast-business-resolution-copilot",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "api": "cd services/api && uv run --env-file ../../.env -- python -m uvicorn app.main:app",
+    "api:dev": "cd services/api && uv run --env-file ../../.env -- python -m uvicorn app.main:app --reload"
+  },
+  "dependencies": {
+    "lucide-react": "^1.14.0",
+    "next": "^16.2.6",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6"
+  },
+  "devDependencies": {
+    "@types/node": "^25.7.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "^16.2.6",
+    "typescript": "^6.0.3"
+  },
+  "overrides": {
+    "postcss": "^8.5.10"
+  }
+}

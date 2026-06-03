@@ -1,0 +1,21 @@
+category: model_generation
+cases:
+  - id: openai_structured_generation_recorded
+    scenario_id: intermittent_signal
+    notes: Checks that the live OpenAI structured-output path ran and recorded model evidence.
+    assertions:
+      - name: openai_generated
+        path: model_run.generated
+        equals: true
+      - name: response_id_present
+        path: model_run.response_id
+        exists: true
+      - name: metrics_record_model
+        path: metrics.ai_provider
+        equals: OpenAI
+      - name: model_name_recorded
+        path: metrics.ai_model
+        not_in:
+          - none
+          - not_run
+          - not_available

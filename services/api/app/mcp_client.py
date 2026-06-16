@@ -5,6 +5,8 @@ import sys
 from pathlib import Path
 from typing import Any, Dict
 
+from .tracing import traceable
+
 
 ROOT = Path(__file__).resolve().parents[3]
 MCP_SERVER_PATH = ROOT / "services" / "mcp_server" / "server.py"
@@ -18,6 +20,7 @@ class ComcastMcpClient:
     def __init__(self, prefer_stdio: bool = True) -> None:
         self.prefer_stdio = prefer_stdio
 
+    @traceable(run_type="tool", name="mcp_call_tool")
     async def call_tool(self, name: str, arguments: Dict[str, Any]) -> Dict[str, Any]:
         if self.prefer_stdio:
             try:

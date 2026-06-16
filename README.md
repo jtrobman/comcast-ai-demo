@@ -49,6 +49,21 @@ RAG retrieval uses Voyage AI embeddings when `VOYAGE_API_KEY` is present. If Voy
 
 Voyage embeddings are cached in `data/cache/` to avoid repeated embedding calls during rehearsals and eval runs. The cache is ignored by git.
 
+## LangSmith tracing
+
+The API emits LangSmith traces for the full resolution pipeline (`resolve_scenario` → RAG retrieval → MCP tool calls → policy gate → OpenAI generation) and for eval runs. The OpenAI Responses API call is captured as a child span with token usage and latency.
+
+Tracing is opt-in via environment variables read automatically by the LangSmith SDK. Add these to `.env`:
+
+```bash
+LANGSMITH_TRACING="true"
+LANGSMITH_ENDPOINT="https://api.smith.langchain.com"
+LANGSMITH_API_KEY="<your-langsmith-api-key>"
+LANGSMITH_PROJECT="Comcast AI Demo"
+```
+
+If `langsmith` is not installed or `LANGSMITH_TRACING` is not `true`, tracing is a transparent no-op and the demo runs unchanged. Traces appear under the configured project in the LangSmith UI.
+
 ## Deployment
 
 Set `NEXT_PUBLIC_API_URL` before `npm run build` to the browser-reachable API URL, or proxy the API under the same origin. Set `CORS_ORIGINS` on the API to the public frontend origin, for example `https://demo.example.com`.

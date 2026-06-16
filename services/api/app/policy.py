@@ -3,11 +3,13 @@ from __future__ import annotations
 from typing import Any, Dict, List
 
 from .models import PolicyVerdict, SourceCitation
+from .tracing import traceable
 
 
 INJECTION_MARKERS = ("ignore all policy", "ignore previous", "free month", "bypass")
 
 
+@traceable(run_type="chain", name="policy_gate")
 def evaluate_policy(
     customer_message: str,
     tool_results: Dict[str, Dict[str, Any]],

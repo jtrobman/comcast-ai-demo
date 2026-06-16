@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import List
 
 from .models import SourceCitation
+from .tracing import traceable
 
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -192,6 +193,7 @@ def _load_documents() -> list[tuple[dict[str, str], str, Path]]:
     return documents
 
 
+@traceable(run_type="retriever", name="rag_retrieve")
 def retrieve(query: str, limit: int = 4) -> List[SourceCitation]:
     documents = _load_documents()
     results: list[SourceCitation] = []

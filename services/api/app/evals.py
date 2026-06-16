@@ -7,6 +7,7 @@ import yaml
 
 from .agent import resolve_scenario
 from .models import EvalCaseResult, EvalRunResponse, ResolutionResponse
+from .tracing import traceable
 
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -132,6 +133,7 @@ def _evaluate_assertion(payload: dict[str, Any], assertion: dict[str, Any]) -> b
     raise ValueError(f"Unsupported assertion operator in {assertion['name']}")
 
 
+@traceable(run_type="chain", name="eval_suite")
 async def run_eval_suite() -> EvalRunResponse:
     suite, case_specs = _load_suite()
     responses: dict[tuple[str, str | None], ResolutionResponse] = {}

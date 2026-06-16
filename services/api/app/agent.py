@@ -9,6 +9,7 @@ from .models import AgentTraceStep, ModelRunRecord, ResolutionResponse, ToolCall
 from .policy import evaluate_policy
 from .rag import retrieve
 from .scenarios import get_scenario
+from .tracing import traceable
 
 
 def _tool_explanation(name: str) -> str:
@@ -291,6 +292,7 @@ def _final_reasoning_summary(
     return draft_reasoning
 
 
+@traceable(run_type="chain", name="resolve_scenario")
 async def resolve_scenario(scenario_id: str, customer_message: str | None = None) -> ResolutionResponse:
     started = time.perf_counter()
     scenario = get_scenario(scenario_id)

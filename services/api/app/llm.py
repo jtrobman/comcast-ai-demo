@@ -9,6 +9,7 @@ from openai import APIConnectionError, APIStatusError, AuthenticationError, Asyn
 from pydantic import BaseModel, Field
 
 from .models import PolicyVerdict, SourceCitation, SupportScenario
+from .tracing import traceable, wrap_openai
 
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -112,6 +113,7 @@ def _token_usage(response: Any) -> dict[str, int | None]:
     }
 
 
+@traceable(run_type="chain", name="draft_resolution")
 async def draft_resolution_with_openai(
     *,
     scenario: SupportScenario,
@@ -125,7 +127,10 @@ async def draft_resolution_with_openai(
         raise AiConfigurationError("OPENAI_API_KEY is missing. Add it to .env before running the AI demo.")
 
     model = configured_model()
-    client = AsyncOpenAI(api_key=api_key)
+    # wrap_openai instruments the OpenAI client so the underlying Responses API
+    # call (token usage, latency, prompt/response) shows up as a child span in
+    # LangSmith. It is a no-op when tracing is disabled.
+    client = wrap_openai(AsyncOpenAI(api_key=api_key))
     payload = {
         "scenario": scenario.model_dump(),
         "retrieved_sources": [citation.model_dump() for citation in citations],
